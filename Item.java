@@ -1,9 +1,9 @@
 class Item{
-    private String name;
+    protected String name;
     private Location location;
     public boolean isHidden;
     public Persona owner;
-    private float cost;
+    protected float cost;
 
     Item(String name){
         this.name=name;
@@ -13,7 +13,11 @@ class Item{
         return name;
     }
     void setLocation(Location location){
-
+        if (this.location != null) {
+            location.items.remove(this);
+        }
+        this.location = location;
+        location.items.add(this);
     }
     
 }

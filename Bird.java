@@ -2,6 +2,7 @@ abstract class Bird{
     private Size size;
     protected Location location;
     private int flyTime;
+    protected  String singText;
 
     Bird(Size size){
         this.size=size;
@@ -37,14 +38,20 @@ abstract class Bird{
         }
         flyTime-=10;
         this.location = location;
-    }
+    } 
 
     void sing() {
-        System.out.println("Bird is singing");
+        location.transferSound(new Sound(this,singText));
     }
     void eat(){
         flyTime=size.getFlyTime();
     }
+
+    void eat(int nutrition) {
+        flyTime = Math.min(flyTime+nutrition, size.getFlyTime());
+    }
+
+
     Location getLocation(){
         return location;
     }
