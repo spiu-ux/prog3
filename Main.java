@@ -1,8 +1,8 @@
-import place.*;
 import birds.*;
 import exceptions.*;
 import items.*;
 import pers.*;
+import place.*;
 
 public class Main{
     public static void main(String[] args){
@@ -75,7 +75,7 @@ public class Main{
     eliz.lookAround();
     eliz.getItem();
     try {
-        eliz.sell(economk, eliz.inventory.toArray(new Item[0]));
+        eliz.sell(economk, (Item[]) eliz.inventory.toArray());
     }   
     // ?
     catch (InsufficientFundsException e) {

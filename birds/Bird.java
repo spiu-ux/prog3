@@ -1,7 +1,8 @@
 package birds;
+import interf.*;
 import place.*;
 
-public abstract class Bird{
+public abstract class Bird implements Audible, Watcher{
     private Size size;
     protected Location location;
     private int flyTime;
@@ -28,6 +29,7 @@ public abstract class Bird{
                 break;
             case 2 : 
                 eat();
+                sing();
                 System.out.println("Bird found a lot of food");
                 break;
         }
@@ -43,8 +45,23 @@ public abstract class Bird{
     } 
 
     public void sing() {
+        if (location != null && singText != null){
         location.transferSound(new Sound(this,singText));
+        }
     }
+    @Override
+    public void speak(String text){
+        if (location!= null){
+            location.transferSound(new Sound(this, text));
+        }
+    }
+    @Override
+    public void hear(Audible source, String text){
+        if(source!=this){
+        this.fly();
+        }
+    }
+
     public void eat(){
         flyTime=size.getFlyTime();
     }
@@ -54,6 +71,25 @@ public abstract class Bird{
     }
 
     public void setLocation(Location location) {
-    this.location = location;
-}
+        this.location = location;
+    }
+    @Override
+    public void lookAround(){
+        int foodFound = (int)(Math.random()*3);
+        switch(foodFound){
+            case 0 -> noFoodFound();
+            case 1 -> someFoodFound();
+            case 2 -> lotsOfFoodFound();
+        }
+    }
+    private void noFoodFound(){
+
+    }
+    private void someFoodFound(){
+        eat();
+    }
+    private void lotsOfFoodFound(){
+        eat();
+        sing();
+    }
 }

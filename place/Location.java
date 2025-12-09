@@ -1,23 +1,21 @@
 package place;
 
 import birds.*;
+import interf.*;
 import items.*;
 import java.util.ArrayList;
 import pers.*;
 
-public class Location{
+public class Location implements Audible{
     private String name;
-    public ArrayList<Bird> birds;
+    public ArrayList<Bird> birds = new ArrayList<>();
     public static Season season=Season.WINTER;
     private boolean bell=false;
-    protected  ArrayList<Persona> people;
-    public ArrayList<Item> items;
+    protected  ArrayList<Persona> people = new ArrayList<>();
+    public ArrayList<Item> items = new ArrayList<>();
 
     public Location(String name){
         this.name=name;
-        this.people = new ArrayList<>();
-        this.birds=new ArrayList<>();
-        this.items = new ArrayList<>();
     }
 
     public void enterPerson(Persona p){
@@ -33,7 +31,7 @@ public class Location{
 
     public void transferSound(Sound sound){
         for (Persona p: people){
-            p.hear(sound);
+            p.hear(sound.source(), sound.text());
         }
     }
 
@@ -48,6 +46,14 @@ public class Location{
     @Override
     public String toString() {
         return "Location: " + name;
+    }
+    @Override
+    public void speak(String text){
+
+    }
+    @Override
+    public void hear(Audible source, String text){
+        
     }
 
     @Override

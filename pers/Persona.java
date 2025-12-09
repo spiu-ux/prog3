@@ -1,18 +1,20 @@
 package pers;
 import birds.*;
 import exceptions.*;
+import interf.*;
 import items.*;
 import java.util.ArrayList;
+import java.util.List;
 import place.*;
 
-public class Persona {
+public class Persona implements Audible,Watcher{
     private String name;
     private Role role;
     public Location location;
     private Mood mood = Mood.CALM;
-    public ArrayList<Item> inventory = new ArrayList<>();
-    protected float money=250;
-    public ArrayList<Item> hair;
+    public final List<Item> inventory = new ArrayList<>();
+    protected float money=250f;
+    public final ArrayList<Item> hair = new ArrayList<>();
     private boolean moneyHidden = false;
 
     public Persona(String name, Role role){
@@ -21,7 +23,6 @@ public class Persona {
     }
         this.name=name;
         this.role=role;
-        this.hair = new ArrayList<>();
     }
 
     private boolean hasItems(Item... items) {
@@ -43,43 +44,36 @@ public class Persona {
     }
 
     public void sell(Persona buyer, Item... items) throws InsufficientFundsException {
-        if(buyer.mood==Mood.ANGRY || !hasItems(items)){
+        if(buyer.mood==Mood.ANGRY || !hasItems(items)){//EQ!!!!!!!!!!!!!
             return;
         }
         float totalCost = 0;
             for (Item i : items) totalCost += i.cost;
                 if (buyer.money < totalCost) {
-                throw new InsufficientFundsException(totalCost, buyer.money);
-    }
-
-        float total_cost = 0;
-        for (Item i: items) {
-            total_cost += i.cost;
-        }
-
-        if (buyer.money>=total_cost){
-                buyer.money-=total_cost;
-                this.money+=total_cost; 
+                    throw new InsufficientFundsException(totalCost, buyer.money);
+                }
+                buyer.money-=totalCost;
+                this.money+=totalCost; 
                 for (Item i: items) {
                     this.inventory.remove(i);
                     buyer.inventory.add(i);
-                }
         }
 
     }
 
     public void brushHair(){
-        for (Item i: hair) {
-            this.hair.remove(i); 
-            this.inventory.add(i);            
-        } 
+        List<Item> hairCopy = new ArrayList<>(this.hair);
+        for (Item item : hairCopy) {
+            this.hair.remove(item);
+            this.inventory.add(item);//copy
+        }
     }
 
     public void brushHair(Item... items){ 
-        if (!hasItems(items)) {return;}
-        for (Item i: items) {
-            this.inventory.remove(i);
-            this.hair.add(i);            
+        if (!hasItems(items)) return;
+        for (Item item: items) {
+            this.inventory.remove(item);
+            this.hair.add(item);            
         }
     }
 
@@ -116,29 +110,22 @@ public class Persona {
     }
 }
 
-   public void lookAround() {
-    for (Item i: this.location.items) {
-        if (!i.isHidden || i.owner == this) {
-            System.out.println("- " + i.getName());
+    @Override
+    public void lookAround() {
+        for (Item i: this.location.items) {
+            if (!i.isHidden || i.owner == this) {
+                System.out.println("- " + i.getName());
         }
     }
 
-    if (location instanceof Room room) {
-            if (room.hasWindow) { 
-                if (room.window.isFrozen) {return;}
-                switch (Location.season) {
-                    case WINTER: 
-                        setMood(Mood.SAD);
-                        break;
-                    case SPRING:
-                        setMood(Mood.CALM);
-                        break;
-                    case SUMMER:
-                        setMood(Mood.HAPPY);
-                        break;
-                    case AUTUMN:
-                        setMood(Mood.CONFUSED);
-                        break;
+            if (location instanceof Room room) {
+                if (room.hasWindow) { 
+                    if (room.window.isFrozen) {return;}
+                    switch (Location.season) {
+                        case WINTER -> setMood(Mood.SAD);
+                        case SPRING -> setMood(Mood.CALM);
+                        case SUMMER ->setMood(Mood.HAPPY);
+                        case AUTUMN -> setMood(Mood.CONFUSED);
                 }
             }
         }
@@ -164,15 +151,20 @@ public class Persona {
         this.location=location;
         location.enterPerson(this);
    }
-   public void speak(String text){
-        location.transferSound(new Sound(this,text));
-   }
-
-   public void hear(Sound sound){
-    if (this !=sound.source()){
-        System.out.println(name + " hear "+sound.text());
+   @Override
+    public void speak(String text) {
+        if (location != null) {
+            location.transferSound(new Sound(this, text));
+        }
     }
-   }
+
+   @Override
+    public void hear(Audible source, String text) {
+        if (this != source) {
+            this.setMood(Mood.CONFUSED);
+        }
+    }
+   
 
     public void hideMoney() {
         this.moneyHidden = true;
@@ -204,7 +196,7 @@ public class Persona {
            role == p.role &&
            mood == p.mood &&
            money == p.money;
-}
+    }
 
     @Override
     public int hashCode() {
