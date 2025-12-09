@@ -26,7 +26,6 @@ abstract class Bird{
             case 2 : 
                 eat();
                 System.out.println("Bird found a lot of food");
-                sing();
                 break;
         }
     }
@@ -37,7 +36,7 @@ abstract class Bird{
             return;
         }
         flyTime-=10;
-        this.location = location;
+        sing();
     } 
 
     void sing() {
@@ -51,8 +50,7 @@ abstract class Bird{
         flyTime = Math.min(flyTime+nutrition, size.getFlyTime());
     }
 
-
-    Location getLocation(){
-        return location;
-    }
+    void setLocation(Location location) {
+    this.location = location;
+}
 }

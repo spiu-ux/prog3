@@ -1,6 +1,3 @@
-
-import java.util.ArrayList;
-
 class Chicken extends Bird{
     Chicken(){
         super(Size.BIG);

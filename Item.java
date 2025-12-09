@@ -1,5 +1,5 @@
 class Item{
-    protected String name;
+    private String name;
     private Location location;
     public boolean isHidden;
     public Persona owner;
@@ -19,5 +19,23 @@ class Item{
         this.location = location;
         location.items.add(this);
     }
-    
+
+    @Override
+    public String toString() {
+        return "Item: " + name + ", стоимость: " + cost;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Item item = (Item) obj;
+        return name.equals(item.name) &&
+            cost == item.cost;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode() + Float.floatToIntBits(cost);
+    } 
 }

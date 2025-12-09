@@ -5,6 +5,7 @@ class Book extends Item{
         super("Book: " + name);
         super.cost=80.0F;
     }
+    //?
     void open(){
         this.isOpen=true;
     }
@@ -13,7 +14,7 @@ class Book extends Item{
     }
     void read(Persona person){
         if(this.isOpen){
-            person.setMood(Mood.SAD);
+            person.setMood(Mood.CALM);
         } 
     }
 

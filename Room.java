@@ -14,15 +14,24 @@ class Room extends Location{
     Room(String name){
         super(name);
     }
+    float getDirtiness() {
+        return this.dirtiness;
+    }
     int countPeople(){
         return people.size();
     }
     
     void cleanRoom(Role role){
         switch (role) {
-            case MAID ->  dirtiness=Math.max(dirtiness-0.8f, 0f);
-            case GUEST -> dirtiness=Math.max(dirtiness-0.2f, 0f);
-            default ->    dirtiness=Math.max(dirtiness-0.4f, 0f);
+            case MAID:  
+                 dirtiness=Math.max(dirtiness-0.8f, 0f);
+                break;
+            case GUEST:
+                 dirtiness=Math.max(dirtiness-0.2f, 0f);
+                break;
+            default:
+                 dirtiness=Math.max(dirtiness-0.4f, 0f);
+                 break;
         }
         
     }
@@ -30,7 +39,7 @@ class Room extends Location{
     @Override
     void enterPerson(Persona p){
         people.add(p);
-        dirtiness = Math.min(dirtiness+0.2f,1f);
+        dirtiness = Math.min(dirtiness+0.5f,1f);
     }
 
     void buildWindow(){

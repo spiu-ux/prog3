@@ -2,15 +2,20 @@ import java.util.ArrayList;
 public class Persona {
     private String name;
     private Role role;
-    private Location location;
+    public Location location;
     private Mood mood = Mood.CALM;
     public ArrayList<Item> inventory = new ArrayList<>();
-    protected  float money=150;
-    private ArrayList<Item> hair;
+    protected float money=250;
+    protected  ArrayList<Item> hair;
+    private boolean moneyHidden = false;
 
     public Persona(String name, Role role){
+        if (name == null || name.trim().isEmpty()) {
+        throw new IllegalArgumentException("Имя пустое");
+    }
         this.name=name;
         this.role=role;
+        this.hair = new ArrayList<>();
     }
 
     private boolean hasItems(Item... items) {
@@ -30,8 +35,16 @@ public class Persona {
         }
         inventory.remove(food);
     }
-    public void sell(Persona buyer, Item... items){
-        if(buyer.mood==Mood.ANGRY || !hasItems(items)){return;}
+
+    public void sell(Persona buyer, Item... items) throws InsufficientFundsException {
+        if(buyer.mood==Mood.ANGRY || !hasItems(items)){
+            return;
+        }
+        float totalCost = 0;
+            for (Item i : items) totalCost += i.cost;
+                if (buyer.money < totalCost) {
+                throw new InsufficientFundsException(totalCost, buyer.money);
+    }
 
         float total_cost = 0;
         for (Item i: items) {
@@ -85,15 +98,16 @@ public class Persona {
         item.owner=this;
    }
 
-    void getItem(){
-        for (Item i: this.location.items) {
-            if (!i.isHidden || i.owner == this) {
-                this.inventory.add(i);
-                i.isHidden = false;
-                this.location.items.remove(i);
-            }
+    void getItem() {
+    ArrayList<Item> itemsCopy = new ArrayList<>(this.location.items);
+    for (Item i : itemsCopy) {
+        if (!i.isHidden || i.owner == this) {
+            this.inventory.add(i);
+            i.isHidden = false;
+            this.location.items.remove(i); //copy
         }
     }
+}
 
    void lookAround() {
     for (Item i: this.location.items) {
@@ -102,7 +116,7 @@ public class Persona {
         }
     }
 
-        if (location instanceof Room room) {
+    if (location instanceof Room room) {
             if (room.hasWindow) { 
                 if (room.window.isFrozen) {return;}
                 switch (Location.season) {
@@ -152,5 +166,42 @@ public class Persona {
         System.out.println(name + " hear "+sound.text());
     }
    }
+
+    void hideMoney() {
+        this.moneyHidden = true;
+    }
+    void showMoney() {
+        this.moneyHidden = false;
+    }
+
+    public float getMoney() {
+        if (this.moneyHidden) {
+            return 0.0f;
+        }
+        return this.money;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona: " + name + ", " + role + ", " + mood + ", деньги: " + money;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;          
+        if (obj == null) return false;         
+        if (getClass() != obj.getClass())      
+            return false;
+        Persona p = (Persona) obj;             
+        return name.equals(p.name) &&         
+           role == p.role &&
+           mood == p.mood &&
+           money == p.money;
+}
+
+    @Override
+    public int hashCode() {
+        return name.hashCode() + role.hashCode() + mood.hashCode() + Float.floatToIntBits(money);
+    }
 
 }

@@ -13,6 +13,7 @@ class Location{
         this.name=name;
         this.people = new ArrayList<>();
         this.birds=new ArrayList<>();
+        this.items = new ArrayList<>();
     }
     void enterPerson(Persona p){
         people.add(p);
@@ -37,5 +38,23 @@ class Location{
 
     void addBell(){
         this.bell=true;
+    }
+
+    @Override
+    public String toString() {
+        return "Location: " + name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Location loc = (Location) obj;
+        return name.equals(loc.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }
