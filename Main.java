@@ -1,4 +1,10 @@
-class Main{
+import place.*;
+import birds.*;
+import exceptions.*;
+import items.*;
+import pers.*;
+
+public class Main{
     public static void main(String[] args){
     Persona jane=new Persona("Jane",Role.MAID);
     Persona eliz =new Persona("Eliz",Role.COMMERSANT);
@@ -79,7 +85,7 @@ class Main{
 
     System.out.println("Комната: " + bedroom3.getName());
     System.out.println("После продажи:");
-    System.out.println("Деньги Элизы: " + eliz.money);
+    System.out.println("Деньги Элизы: " + eliz.getMoney());
     System.out.println("Яиц у Элизы: " + eliz.inventory.size());
     System.out.println("Предметов у экономки: " + economk.inventory.size());
     System.out.println("Настроение Элизы: " + eliz.getMood());

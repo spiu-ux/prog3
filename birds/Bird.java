@@ -1,14 +1,17 @@
-abstract class Bird{
+package birds;
+import place.*;
+
+public abstract class Bird{
     private Size size;
     protected Location location;
     private int flyTime;
     protected  String singText;
 
-    Bird(Size size){
+    public Bird(Size size){
         this.size=size;
         this.flyTime=size.getFlyTime();
     }
-    void fly(){
+    public void fly(){
         if (flyTime==0){
             System.out.println("Bird can't fly");
             return;
@@ -30,7 +33,7 @@ abstract class Bird{
         }
     }
 
-    void fly(Location location){
+    public void fly(Location location){
         if (flyTime==0){
             System.out.println("Bird can't fly");
             return;
@@ -39,18 +42,18 @@ abstract class Bird{
         sing();
     } 
 
-    void sing() {
+    public void sing() {
         location.transferSound(new Sound(this,singText));
     }
-    void eat(){
+    public void eat(){
         flyTime=size.getFlyTime();
     }
 
-    void eat(int nutrition) {
+    public void eat(int nutrition) {
         flyTime = Math.min(flyTime+nutrition, size.getFlyTime());
     }
 
-    void setLocation(Location location) {
+    public void setLocation(Location location) {
     this.location = location;
 }
 }

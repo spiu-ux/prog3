@@ -1,6 +1,8 @@
-class Bread extends Item implements BirdFood{
+package items;
+
+public class Bread extends Item implements BirdFood{
     int nutrition=20;
-    Bread(){
+    public Bread(){
         super("Bread");
         super.cost=20.0f;
     }

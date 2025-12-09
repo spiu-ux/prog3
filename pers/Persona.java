@@ -1,4 +1,10 @@
+package pers;
+import birds.*;
+import exceptions.*;
+import items.*;
 import java.util.ArrayList;
+import place.*;
+
 public class Persona {
     private String name;
     private Role role;
@@ -6,7 +12,7 @@ public class Persona {
     private Mood mood = Mood.CALM;
     public ArrayList<Item> inventory = new ArrayList<>();
     protected float money=250;
-    protected  ArrayList<Item> hair;
+    public ArrayList<Item> hair;
     private boolean moneyHidden = false;
 
     public Persona(String name, Role role){
@@ -93,12 +99,13 @@ public class Persona {
     public void setMood(Mood mood){
         this.mood=mood;
     }
-    void getItem(Item item){
+
+    public void getItem(Item item){
         inventory.add(item);        
         item.owner=this;
-   }
+    }
 
-    void getItem() {
+    public void getItem() {
     ArrayList<Item> itemsCopy = new ArrayList<>(this.location.items);
     for (Item i : itemsCopy) {
         if (!i.isHidden || i.owner == this) {
@@ -109,7 +116,7 @@ public class Persona {
     }
 }
 
-   void lookAround() {
+   public void lookAround() {
     for (Item i: this.location.items) {
         if (!i.isHidden || i.owner == this) {
             System.out.println("- " + i.getName());
@@ -137,40 +144,40 @@ public class Persona {
         }
    }
 
-    void hide(Item item) {
+    public void hide(Item item) {
         this.inventory.remove(item);
         item.owner = this;
         this.location.items.add(item);
         item.isHidden = true;
     }
 
-   void cleanUp(){
+   public void cleanUp(){
     if (location instanceof Room room){
         room.cleanRoom(this.role);
     }
    }
 
-   void moveTo(Location location){
+   public void moveTo(Location location){
         if (this.location != null) {
             this.location.exitPerson(this);
         }
         this.location=location;
         location.enterPerson(this);
    }
-   void speak(String text){
+   public void speak(String text){
         location.transferSound(new Sound(this,text));
    }
 
-   void hear(Sound sound){
+   public void hear(Sound sound){
     if (this !=sound.source()){
         System.out.println(name + " hear "+sound.text());
     }
    }
 
-    void hideMoney() {
+    public void hideMoney() {
         this.moneyHidden = true;
     }
-    void showMoney() {
+    public void showMoney() {
         this.moneyHidden = false;
     }
 

@@ -1,4 +1,5 @@
-record Sound(
+package place;
+public record Sound(
     Object source,
     String text
 ){

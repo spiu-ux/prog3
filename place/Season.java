@@ -1,3 +1,4 @@
+package place;
 public enum Season{
     SUMMER,
     AUTUMN,
