@@ -11,41 +11,37 @@ public class Main{
     Persona georgeanna =new Persona("Georgeanna",Role.TENANT);
     Persona economk=new Persona("Economy", Role.ECONOMY);
     Persona bessy=new Persona("Bessy",Role.TENANT);
+    Persona invalid = null;
     try {
         // n
-        Persona invalid = new Persona("", Role.MAID);
+        invalid = new Persona("", Role.GUEST);
     }   
     catch (IllegalArgumentException e) {
     System.out.println("Неверное имя: " + e.getMessage());
+    invalid = new Persona("Неизвестный", Role.GUEST);
+    System.out.println("Создана персона: " + invalid.getName());
     }
+
     Location barn=new Location("Barn");
-
-    Item egg1 = new Egg();
-    Item egg2 = new Egg();
     //n
-    System.out.println(egg1.equals(egg2)); 
-
-    Location barn1 = new Location("Barn");
-    Location barn2 = new Location("Barn");
-    System.out.println(barn1.equals(barn2));
-    
-    Room bedroom1=new Room("Bedroom Elize");
+    Room bedroom1 = new Room("Bedroom Elize", RoomType.BEDROOM);
     bedroom1.buildWindow();
     bedroom1.enterPerson(eliz);
 
 
-    Room bedroom2=new Room("Bedjkhgjgfroom Georgeanna");
+    Room bedroom2=new Room("Bedroom Georgeanna",RoomType.CHILDREN_ROOM);
     bedroom2.buildWindow();
     bedroom2.enterPerson(georgeanna);
 
-    Room bedroom3=new Room("Bedroom Jane");
+    Room bedroom3 = new Room("Bedroom Jane", RoomType.BEDROOM);
     bedroom3.buildWindow();
     bedroom3.enterPerson(jane);
 
     
     //diff
-    Room kitchen=new Room("Kitchen");
+    Room kitchen=new Room("Kitchen",RoomType.KITCHEN);
     kitchen.buildWindow();
+    kitchen.enterPerson(invalid);
 
     
     Chicken tyi=new Chicken();
@@ -74,16 +70,19 @@ public class Main{
     jir.layEggs();
     eliz.lookAround();
     eliz.getItem();
+    Item sampleEgg = new Egg();
+    if (eliz.inventory.contains(sampleEgg)){
     try {
-        eliz.sell(economk, (Item[]) eliz.inventory.toArray());
-    }   
-    // ?
-    catch (InsufficientFundsException e) {
-    System.out.println("Ошибка: " + e.getMessage());
-    }
+        eliz.sell(economk, sampleEgg);
+            System.out.println("Продали одно яйцо");
+        } catch (InsufficientFundsException e) {
+            System.out.println("Экономка не может купить яйцо: " + e.getMessage());
+        }
+        } else {
+            System.out.println("У Элизы нет яиц");
+        }
     eliz.setMood(Mood.HAPPY);
 
-    System.out.println("Комната: " + bedroom3.getName());
     System.out.println("После продажи:");
     System.out.println("Деньги Элизы: " + eliz.getMoney());
     System.out.println("Яиц у Элизы: " + eliz.inventory.size());
@@ -95,7 +94,7 @@ public class Main{
     //jane.moveTo(bedroom1);
     //jane.lookAround();
     //jane.getItem();
-    System.out.println("Деньги Элизы: " + eliz.getMoney());
+    System.out.println("Деньги Элизы после того как спрятала: " + eliz.getMoney());
     //System.out.println("Что видит Дейн "+ jane.inventory);
     
     georgeanna.getItem(flower);
@@ -103,22 +102,30 @@ public class Main{
     georgeanna.getItem(feather);
     georgeanna.brushHair(feather);
     georgeanna.setMood(Mood.HAPPY);
-    System.out.println("Предметов в волосах: " + georgeanna.hair.size());
-    System.out.println("Настроение Элизы: " + georgeanna.getMood());
+    System.out.println("Предметов в волосах у Джорджианны: " + georgeanna.hair.size());
+    System.out.println("Настроение Джоржианны: " + georgeanna.getMood());
 
 
     bessy.setMood(Mood.ANGRY);
-    bessy.moveTo(kitchen); 
-    bessy.speak("Джейн убери комнату!");
-    jane.cleanUp();
+    bessy.moveTo(bedroom3); 
+    //System.out.println("Настроение Джейн до крика Бесси: " + jane.getMood());
+    bessy.speak("Джейн убери комнату Джорджианны!");
+    //System.out.println("Настроение Джейн после крика Бесси: " + jane.getMood());
     jane.moveTo(bedroom2);
+    int peopleCount = bedroom2.countPeople();
+    System.out.println("В детской: " + peopleCount + " человека");
+    float dirtBefore = bedroom2.getDirtiness();
+    System.out.println("Грязь до уборки: " + String.format("%.2f", dirtBefore));
+    jane.cleanUp();
+    float dirtAfter = bedroom2.getDirtiness();
+    System.out.println("Грязь после уборки: " + String.format("%.2f", dirtAfter));
     jane.getItem(book);
-    book.open();
+    book.open(jane);
+    System.out.println("Настроение Джейн до прочтения книги: "+jane.getMood());
     book.read(jane);
-    System.out.println("Настроение Джейн: "+jane.getMood());
     jane.breath();
     jane.lookAround();
-    book.close();
+    book.close(jane);
     System.out.println("Настроение Джейн: "+jane.getMood());
     jane.getItem(bread);
     jane.feedBirds(bread);
