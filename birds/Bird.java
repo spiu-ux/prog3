@@ -3,7 +3,7 @@ import interf.*;
 import place.*;
 
 public abstract class Bird implements Audible, Watcher{
-    private Size size;
+    private final Size size;
     protected Location location;
     private int flyTime;
     protected  String singText;
@@ -34,7 +34,6 @@ public abstract class Bird implements Audible, Watcher{
                 break;
         }
     }
-
     public void fly(Location location){
         if (flyTime==0){
             System.out.println("Bird can't fly");
@@ -43,7 +42,6 @@ public abstract class Bird implements Audible, Watcher{
         flyTime-=10;
         sing();
     } 
-
     public void sing() {
         if (location != null && singText != null){
         location.transferSound(new Sound(this,singText));
@@ -61,15 +59,12 @@ public abstract class Bird implements Audible, Watcher{
         this.fly();
         }
     }
-
     public void eat(){
         flyTime=size.getFlyTime();
     }
-
     public void eat(int nutrition) {
         flyTime = Math.min(flyTime+nutrition, size.getFlyTime());
     }
-
     public void setLocation(Location location) {
         this.location = location;
     }
@@ -83,7 +78,6 @@ public abstract class Bird implements Audible, Watcher{
         }
     }
     private void noFoodFound(){
-
     }
     private void someFoodFound(){
         eat();

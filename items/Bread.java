@@ -9,4 +9,12 @@ public class Bread extends Item implements BirdFood{
     public int getNutrition(){
         return nutrition;
     }
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj.getClass() == this.getClass();
+    }
 }

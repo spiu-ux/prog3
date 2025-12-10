@@ -3,7 +3,7 @@ import pers.*;
 import place.*;
 
 public class Item{
-    private String name;
+    private final  String name;
     private Location location;
     public boolean isHidden;
     public Persona owner;

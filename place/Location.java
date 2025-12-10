@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import pers.*;
 
 public class Location implements Audible{
-    private String name;
+    private final String name;
     public ArrayList<Bird> birds = new ArrayList<>();
     public static Season season=Season.WINTER;
     private boolean bell=false;
-    protected  ArrayList<Persona> people = new ArrayList<>();
+    protected ArrayList<Persona> people = new ArrayList<>();
     public ArrayList<Item> items = new ArrayList<>();
 
     public Location(String name){
@@ -32,6 +32,9 @@ public class Location implements Audible{
     public void transferSound(Sound sound){
         for (Persona p: people){
             p.hear(sound.source(), sound.text());
+        }
+        for (Bird b: birds){
+            b.hear(sound.source(), sound.text());
         }
     }
 

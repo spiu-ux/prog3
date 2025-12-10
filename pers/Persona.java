@@ -24,7 +24,6 @@ public class Persona implements Audible,Watcher{
         this.name=name;
         this.role=role;
     }
-
     private boolean hasItems(Item... items) {
         for (Item i: items) {
             if (!this.inventory.contains(i)) { 
@@ -33,10 +32,8 @@ public class Persona implements Audible,Watcher{
         }
         return true;
     }
-
     public void feedBirds(BirdFood food){
         if (!hasItems((Item) food)) {return;}
-
         for (Bird p: location.birds) {
             p.eat(food.getNutrition());
         }
@@ -57,10 +54,9 @@ public class Persona implements Audible,Watcher{
                 for (Item i: items) {
                     this.inventory.remove(i);
                     buyer.inventory.add(i);
-        }
+                }
 
     }
-
     public void brushHair(){
         List<Item> hairCopy = new ArrayList<>(this.hair);
         for (Item item : hairCopy) {
@@ -68,7 +64,6 @@ public class Persona implements Audible,Watcher{
             this.inventory.add(item);//copy
         }
     }
-
     public void brushHair(Item... items){ 
         if (!hasItems(items)) return;
         for (Item item: items) {
@@ -76,7 +71,6 @@ public class Persona implements Audible,Watcher{
             this.hair.add(item);            
         }
     }
-
     public void breath(){
         if (location instanceof Room room) {
             if (room.hasWindow) { 
@@ -93,12 +87,10 @@ public class Persona implements Audible,Watcher{
     public void setMood(Mood mood){
         this.mood=mood;
     }
-
     public void getItem(Item item){
         inventory.add(item);        
         item.owner=this;
     }
-
     public void getItem() {
     ArrayList<Item> itemsCopy = new ArrayList<>(this.location.items);
     for (Item i : itemsCopy) {
@@ -117,7 +109,6 @@ public class Persona implements Audible,Watcher{
                 System.out.println("- " + i.getName());
         }
     }
-
             if (location instanceof Room room) {
                 if (room.hasWindow) { 
                     if (room.window.isFrozen) {return;}
@@ -130,20 +121,17 @@ public class Persona implements Audible,Watcher{
             }
         }
    }
-
     public void hide(Item item) {
         this.inventory.remove(item);
         item.owner = this;
         this.location.items.add(item);
         item.isHidden = true;
     }
-
    public void cleanUp(){
     if (location instanceof Room room){
         room.cleanRoom(this.role);
-    }
+        }
    }
-
    public void moveTo(Location location){
         if (this.location != null) {
             this.location.exitPerson(this);
@@ -157,15 +145,12 @@ public class Persona implements Audible,Watcher{
             location.transferSound(new Sound(this, text));
         }
     }
-
    @Override
     public void hear(Audible source, String text) {
         if (this != source) {
             this.setMood(Mood.CONFUSED);
         }
     }
-   
-
     public void hideMoney() {
         this.moneyHidden = true;
     }
