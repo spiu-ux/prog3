@@ -1,4 +1,8 @@
-class Bullfinch extends Bird{
+package birds;
+import place.*;
+
+
+public class Bullfinch extends Bird{
     private Room.Window window;
 
     public Bullfinch() {
@@ -6,7 +10,7 @@ class Bullfinch extends Bird{
         super.singText = "Chirp-chirp!";
     }
     
-    void sitOnWindow(Room.Window window){
+    public void sitOnWindow(Room.Window window){
         if (window.bullfinch == null){
             this.window=window;
             window.bullfinch=this;
@@ -14,7 +18,7 @@ class Bullfinch extends Bird{
     }
 
     @Override
-    void fly(Location location){
+    public void fly(Location location){
         super.fly(location);
 
         if (this.window != null) {

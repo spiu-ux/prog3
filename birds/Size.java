@@ -1,3 +1,4 @@
+package birds;
 public enum Size{
     TINY(120),
     SMALL(90),

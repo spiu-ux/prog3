@@ -1,17 +1,20 @@
-class Chicken extends Bird{
-    Chicken(){
+package birds;
+import items.*;
+
+public class Chicken extends Bird{
+    public Chicken(){
         super(Size.BIG);
         super.singText = "Bawk-bawk!";
     }
     
-    void layEggs(){
+    public void layEggs(){
         int eggCount=(int)(Math.random()*4+1);                 
         for (int i = 0; i < eggCount; i++) {
             this.location.items.add(new Egg());
         }
     }
     @Override
-    void eat(){
+    public void eat(){
         super.eat();
         layEggs();
     }

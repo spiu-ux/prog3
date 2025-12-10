@@ -1,6 +1,8 @@
-class Seeds extends Item implements BirdFood{
+package items;
+
+public class Seeds extends Item implements BirdFood{
     int nutrition=10;
-    Seeds(){
+    public Seeds(){
         super("Seeds");
         super.cost=17.0f;
     }
