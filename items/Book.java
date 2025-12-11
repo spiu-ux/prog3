@@ -1,18 +1,21 @@
-class Book extends Item{
+package items;
+import pers.*;
+
+public class Book extends Item{
     protected boolean isOpen=false;
 
-    Book(String name){
+    public Book(String name){
         super("Book: " + name);
         super.cost=80.0F;
     }
     //?
-    void open(){
+    public void open(){
         this.isOpen=true;
     }
-    void close(){
+    public void close(){
         this.isOpen=false;
     }
-    void read(Persona person){
+    public void read(Persona person){
         if(this.isOpen){
             person.setMood(Mood.CALM);
         } 

@@ -1,3 +1,4 @@
+package exceptions;
 public class InsufficientFundsException extends Exception {
     private final float required;
     private final float available;

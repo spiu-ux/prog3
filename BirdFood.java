@@ -1,3 +1,0 @@
-interface BirdFood{
-    int getNutrition();
-}

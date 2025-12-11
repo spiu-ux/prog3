@@ -1,18 +1,22 @@
-class Item{
-    private String name;
+package items;
+import pers.*;
+import place.*;
+
+public class Item{
+    private final  String name;
     private Location location;
     public boolean isHidden;
     public Persona owner;
-    protected float cost;
+    public float cost;
 
-    Item(String name){
+    public Item(String name){
         this.name=name;
     }
 
-    String getName(){
+    public String getName(){
         return name;
     }
-    void setLocation(Location location){
+    public void setLocation(Location location){
         if (this.location != null) {
             location.items.remove(this);
         }
