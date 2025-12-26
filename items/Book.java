@@ -9,15 +9,17 @@ public class Book extends Item{
         super.cost=80.0F;
     }
     //?
-    public void open(){
+    public void open(Persona reader){
         this.isOpen=true;
+        reader.startReading();
     }
-    public void close(){
+    public void close(Persona reader){
         this.isOpen=false;
+        reader.stopReading();
     }
-    public void read(Persona person){
+    public void read(Persona reader){
         if(this.isOpen){
-            person.setMood(Mood.CALM);
+            reader.setMood(Mood.CALM);
         } 
     }
 

@@ -18,10 +18,10 @@ public class Room extends Location{
         super(name);
         this.type=type;
     }
-    float getDirtiness() {
+    public float getDirtiness() {
         return this.dirtiness;
     }
-    int countPeople(){
+    public int countPeople(){
         return people.size();
     }
     public void cleanRoom(Role role){

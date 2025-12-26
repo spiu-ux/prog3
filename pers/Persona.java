@@ -16,6 +16,7 @@ public class Persona implements Audible,Watcher{
     protected float money=250f;
     public final ArrayList<Item> hair = new ArrayList<>();
     private boolean moneyHidden = false;
+    private boolean isReading = false;
 
     public Persona(String name, Role role){
         if (name == null || name.trim().isEmpty()) {
@@ -41,7 +42,7 @@ public class Persona implements Audible,Watcher{
     }
 
     public void sell(Persona buyer, Item... items) throws InsufficientFundsException {
-        if(buyer.mood==Mood.ANGRY || !hasItems(items)){//EQ!!!!!!!!!!!!!
+        if(buyer.mood==Mood.ANGRY || !hasItems(items)){
             return;
         }
         float totalCost = 0;
@@ -101,7 +102,6 @@ public class Persona implements Audible,Watcher{
         }
     }
 }
-
     @Override
     public void lookAround() {
         for (Item i: this.location.items) {
@@ -133,6 +133,9 @@ public class Persona implements Audible,Watcher{
         }
    }
    public void moveTo(Location location){
+        if (this.isReading){
+            return;
+        }
         if (this.location != null) {
             this.location.exitPerson(this);
         }
@@ -163,6 +166,12 @@ public class Persona implements Audible,Watcher{
             return 0.0f;
         }
         return this.money;
+    }
+    public void startReading(){
+        this.isReading=true;
+    }
+    public void stopReading(){
+        this.isReading=false;
     }
 
     @Override
